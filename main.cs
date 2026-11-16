@@ -311,7 +311,31 @@ namespace ConsoleApp1
                         }
                     }
                 }
-            }
+            } /* Düzenlenmiş Hali (Açıklama İhtimali = % 0)
+            for (int i = 0; i < puzzle.GetLength(1); i++) // Satır Döngüsü
+            {
+                for (int j = 0; j < puzzle.GetLength(0); j++) // Yüz Döngüsü
+                {
+                    for (int k = 0; k < puzzle.GetLength(2); k++) // Sütun Döngüsü
+                    {
+                        if (puzzle[puzzle.GetLength(0) - 1 - j, puzzle.GetLength(1) - 1 - i, k] != 0)
+                        {
+                            Console.SetCursorPosition(2 + (puzzle.GetLength(1) - 1 + 3 * k - j) * 2, (puzzle.GetLength(0) - 1 + j - i) * 3 - j);
+                            Console.Write("+-----+");
+                            Console.SetCursorPosition(1 + (puzzle.GetLength(1) - 1 + 3 * k - j) * 2, 1 + (puzzle.GetLength(0) - 1 + j - i) * 3 - j);
+                            Console.Write("/     /|");
+                            Console.SetCursorPosition((puzzle.GetLength(1) - 1 + 3 * k - j) * 2, 2 + (puzzle.GetLength(0) - 1 + j - i) * 3 - j);
+                            Console.Write("+-----+ |");
+                            Console.SetCursorPosition((puzzle.GetLength(1) - 1 + 3 * k - j) * 2, 3 + (puzzle.GetLength(0) - 1 + j - i) * 3 - j);
+                            Console.Write("| " + puzzle[puzzle.GetLength(0) - 1 - j, puzzle.GetLength(1) - 1 - i, k] + " " + puzzle[puzzle.GetLength(0) - 1 - j, puzzle.GetLength(1) - 1 - i, k] + " | +");
+                            Console.SetCursorPosition((puzzle.GetLength(1) - 1 + 3 * k - j) * 2, 4 + (puzzle.GetLength(0) - 1 + j - i) * 3 - j);
+                            Console.Write("| " + puzzle[puzzle.GetLength(0) - 1 - j, puzzle.GetLength(1) - 1 - i, k] + " " + puzzle[puzzle.GetLength(0) - 1 - j, puzzle.GetLength(1) - 1 - i, k] + " |/");
+                            Console.SetCursorPosition((puzzle.GetLength(1) - 1 + 3 * k - j) * 2, 5 + (puzzle.GetLength(0) - 1 + j - i) * 3 - j);
+                            Console.Write("+-----+");
+                        }
+                    }
+                }
+            } */
             Console.ReadLine();
         }
     }
