@@ -393,6 +393,24 @@ namespace Proje_2_Deneme
                         Console.SetCursorPosition(83 + i * 5, j + 11);
                     }
                 }
+                Console.SetCursorPosition(83, 14);
+                Console.Write("x:");
+                Console.SetCursorPosition(83, 15);
+                Console.Write("y:");
+                Console.SetCursorPosition(83, 16);
+                Console.Write("z:");
+                Console.SetCursorPosition(98, 10);
+                Console.Write("Piece: ");
+                Console.SetCursorPosition(98, 11);
+                Console.Write("x:");
+                Console.SetCursorPosition(98, 12);
+                Console.Write("y:");
+                Console.SetCursorPosition(98, 13);
+                Console.Write("z:");
+                Console.SetCursorPosition(98, 14);
+                Console.Write("coll:");
+                Console.SetCursorPosition(98, 15);
+                Console.Write("cube:");
 
                 //-------------------------------------------------
                 // Board'ı Yedekleme
