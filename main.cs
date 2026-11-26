@@ -16,6 +16,10 @@ namespace Proje_2_Deneme
         {
             bool gamemode = true;
             Console.CursorVisible = false; // Konsol üzerinde gözüken imleci kapatmak.
+            int currentcursor = 1, cursorcounter = 0;
+            int board_x_pos = 11, board_y_pos = 12, board_z_pos = 13;
+            int puzzle_x_pos = 11, puzzle_y_pos = 12, puzzle_z_pos = 13;
+            int cursor_x_pos = 11, cursor_y_pos = 12, cursor_z_pos = 13;
             int[,,] board = new int[,,]
             {
                 { { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 } }, // Ön Yüz
@@ -26,10 +30,11 @@ namespace Proje_2_Deneme
             };
             int[,,] cursor = new int[,,]
             {
-                { { 0, 0, 0 }, { 0, 0, 0 }, {0, 4, 4 } },
-                { { 0, 0, 0 }, { 0, 0, 0 }, {4, 4, 0 } },
-                { { 0, 0, 0 }, { 0, 0, 0 }, {0, 0, 0 } }
+                { { 0, 0, 0 }, { 1, 0, 0 }, { 1, 1, 0 } },
+                { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } },
+                { { 0, 0, 0 }, { 0, 0, 0 }, { 0, 0, 0 } }
             };
+            int[,,] cursor_in_board = new int[5, 5, 5];
             int[,,] piece1 = new int[,,]
             {
                 { { 0, 0, 0 }, { 1, 0, 0 }, { 1, 1, 0 } },
@@ -388,7 +393,10 @@ namespace Proje_2_Deneme
                             if (cursor[i, j, k] == 0)
                                 Console.Write(".");
                             else
+                            {
+                                cursorcounter++;
                                 Console.Write(cursor[i, j, k]);
+                            }
                         }
                         Console.SetCursorPosition(83 + i * 5, j + 11);
                     }
@@ -400,17 +408,80 @@ namespace Proje_2_Deneme
                 Console.SetCursorPosition(83, 16);
                 Console.Write("z:");
                 Console.SetCursorPosition(98, 10);
-                Console.Write("Piece: ");
+                Console.Write("Piece:");
                 Console.SetCursorPosition(98, 11);
                 Console.Write("x:");
+                if (cursor_x_pos / 10 == 1)
+                    Console.Write("+");
+                else
+                    Console.Write("-");
+                if (cursor_x_pos % 10 == 1)
+                    Console.Write("x");
+                else if (cursor_x_pos % 10 == 2)
+                    Console.Write("y");
+                else
+                    Console.Write("z");
                 Console.SetCursorPosition(98, 12);
                 Console.Write("y:");
+                if (cursor_y_pos / 10 == 1)
+                    Console.Write("+");
+                else
+                    Console.Write("-");
+                if (cursor_y_pos % 10 == 1)
+                    Console.Write("x");
+                else if (cursor_y_pos % 10 == 2)
+                    Console.Write("y");
+                else
+                    Console.Write("z");
                 Console.SetCursorPosition(98, 13);
                 Console.Write("z:");
+                if (cursor_z_pos / 10 == 1)
+                    Console.Write("+");
+                else
+                    Console.Write("-");
+                if (cursor_z_pos % 10 == 1)
+                    Console.Write("x");
+                else if (cursor_z_pos % 10 == 2)
+                    Console.Write("y");
+                else
+                    Console.Write("z");
                 Console.SetCursorPosition(98, 14);
                 Console.Write("coll:");
                 Console.SetCursorPosition(98, 15);
-                Console.Write("cube:");
+                Console.Write("cube:0/" + cursorcounter);
+                cursorcounter = 0;
+                Console.SetCursorPosition(111, 10);
+                Console.Write("Pieces:");
+                Console.SetCursorPosition(112, 11);
+                Console.Write("1:0");
+                Console.SetCursorPosition(112, 12);
+                Console.Write("2:0");
+                Console.SetCursorPosition(112, 13);
+                Console.Write("3:0");
+                Console.SetCursorPosition(112, 14);
+                Console.Write("4:0");
+                Console.SetCursorPosition(112, 15);
+                Console.Write("5:0");
+                Console.SetCursorPosition(112, 16);
+                Console.Write("6:0");
+                Console.SetCursorPosition(112, 17);
+                Console.Write("7:0");
+                for (int i = 0; i < board.GetLength(0); i++)
+                {
+                    for (int j = 0; j < board.GetLength(1); j++)
+                    {
+                        for (int k = 0; k < board.GetLength(2); k++)
+                        {
+                            if (board[i, j, k] != 0)
+                            {
+                                Console.SetCursorPosition(114, 10 + board[i, j, k]);
+                                Console.Write("1");
+                            }
+                        }
+                    }
+                }
+                Console.SetCursorPosition(116, 10 + currentcursor);
+                Console.Write("<-");
 
                 //-------------------------------------------------
                 // Board'ı Yedekleme
@@ -692,6 +763,195 @@ namespace Proje_2_Deneme
                                     cursor[i, k, 2 - j] = cursor_rotate[i, j, k];
                                 }
                             }
+                        }
+                        break;
+
+                    //-------------------------------------------------
+                    // Cursor Değiştirme
+                    //-------------------------------------------------
+
+                    case ConsoleKey.O:
+                        currentcursor--;
+                        if (currentcursor == 0)
+                            currentcursor = 7;
+                        switch (currentcursor)
+                        {
+                            case 1:
+                                for (int i = 0; i < cursor.GetLength(0); i++)
+                                {
+                                    for (int j = 0; j < cursor.GetLength(1); j++)
+                                    {
+                                        for (int k = 0; k < cursor.GetLength(2); k++)
+                                        {
+                                            cursor[i, j, k] = piece1[i, j, k];
+                                        }
+                                    }
+                                }
+                                break;
+                            case 2:
+                                for (int i = 0; i < cursor.GetLength(0); i++)
+                                {
+                                    for (int j = 0; j < cursor.GetLength(1); j++)
+                                    {
+                                        for (int k = 0; k < cursor.GetLength(2); k++)
+                                        {
+                                            cursor[i, j, k] = piece2[i, j, k];
+                                        }
+                                    }
+                                }
+                                break;
+                            case 3:
+                                for (int i = 0; i < cursor.GetLength(0); i++)
+                                {
+                                    for (int j = 0; j < cursor.GetLength(1); j++)
+                                    {
+                                        for (int k = 0; k < cursor.GetLength(2); k++)
+                                        {
+                                            cursor[i, j, k] = piece3[i, j, k];
+                                        }
+                                    }
+                                }
+                                break;
+                            case 4:
+                                for (int i = 0; i < cursor.GetLength(0); i++)
+                                {
+                                    for (int j = 0; j < cursor.GetLength(1); j++)
+                                    {
+                                        for (int k = 0; k < cursor.GetLength(2); k++)
+                                        {
+                                            cursor[i, j, k] = piece4[i, j, k];
+                                        }
+                                    }
+                                }
+                                break;
+                            case 5:
+                                for (int i = 0; i < cursor.GetLength(0); i++)
+                                {
+                                    for (int j = 0; j < cursor.GetLength(1); j++)
+                                    {
+                                        for (int k = 0; k < cursor.GetLength(2); k++)
+                                        {
+                                            cursor[i, j, k] = piece5[i, j, k];
+                                        }
+                                    }
+                                }
+                                break;
+                            case 6:
+                                for (int i = 0; i < cursor.GetLength(0); i++)
+                                {
+                                    for (int j = 0; j < cursor.GetLength(1); j++)
+                                    {
+                                        for (int k = 0; k < cursor.GetLength(2); k++)
+                                        {
+                                            cursor[i, j, k] = piece6[i, j, k];
+                                        }
+                                    }
+                                }
+                                break;
+                            case 7:
+                                for (int i = 0; i < cursor.GetLength(0); i++)
+                                {
+                                    for (int j = 0; j < cursor.GetLength(1); j++)
+                                    {
+                                        for (int k = 0; k < cursor.GetLength(2); k++)
+                                        {
+                                            cursor[i, j, k] = piece7[i, j, k];
+                                        }
+                                    }
+                                }
+                                break;
+                        }
+                        break;
+                    case ConsoleKey.K:
+                        currentcursor++;
+                        if (currentcursor == 8)
+                            currentcursor = 1;
+                        switch (currentcursor)
+                        {
+                            case 1:
+                                for (int i = 0; i < cursor.GetLength(0); i++)
+                                {
+                                    for (int j = 0; j < cursor.GetLength(1); j++)
+                                    {
+                                        for (int k = 0; k < cursor.GetLength(2); k++)
+                                        {
+                                            cursor[i, j, k] = piece1[i, j, k];
+                                        }
+                                    }
+                                }
+                                break;
+                            case 2:
+                                for (int i = 0; i < cursor.GetLength(0); i++)
+                                {
+                                    for (int j = 0; j < cursor.GetLength(1); j++)
+                                    {
+                                        for (int k = 0; k < cursor.GetLength(2); k++)
+                                        {
+                                            cursor[i, j, k] = piece2[i, j, k];
+                                        }
+                                    }
+                                }
+                                break;
+                            case 3:
+                                for (int i = 0; i < cursor.GetLength(0); i++)
+                                {
+                                    for (int j = 0; j < cursor.GetLength(1); j++)
+                                    {
+                                        for (int k = 0; k < cursor.GetLength(2); k++)
+                                        {
+                                            cursor[i, j, k] = piece3[i, j, k];
+                                        }
+                                    }
+                                }
+                                break;
+                            case 4:
+                                for (int i = 0; i < cursor.GetLength(0); i++)
+                                {
+                                    for (int j = 0; j < cursor.GetLength(1); j++)
+                                    {
+                                        for (int k = 0; k < cursor.GetLength(2); k++)
+                                        {
+                                            cursor[i, j, k] = piece4[i, j, k];
+                                        }
+                                    }
+                                }
+                                break;
+                            case 5:
+                                for (int i = 0; i < cursor.GetLength(0); i++)
+                                {
+                                    for (int j = 0; j < cursor.GetLength(1); j++)
+                                    {
+                                        for (int k = 0; k < cursor.GetLength(2); k++)
+                                        {
+                                            cursor[i, j, k] = piece5[i, j, k];
+                                        }
+                                    }
+                                }
+                                break;
+                            case 6:
+                                for (int i = 0; i < cursor.GetLength(0); i++)
+                                {
+                                    for (int j = 0; j < cursor.GetLength(1); j++)
+                                    {
+                                        for (int k = 0; k < cursor.GetLength(2); k++)
+                                        {
+                                            cursor[i, j, k] = piece6[i, j, k];
+                                        }
+                                    }
+                                }
+                                break;
+                            case 7:
+                                for (int i = 0; i < cursor.GetLength(0); i++)
+                                {
+                                    for (int j = 0; j < cursor.GetLength(1); j++)
+                                    {
+                                        for (int k = 0; k < cursor.GetLength(2); k++)
+                                        {
+                                            cursor[i, j, k] = piece7[i, j, k];
+                                        }
+                                    }
+                                }
+                                break;
                         }
                         break;
                 }
