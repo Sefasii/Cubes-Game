@@ -20,6 +20,7 @@ namespace Proje_2_Deneme
             int board_x_pos = 11, board_y_pos = 12, board_z_pos = 13;
             int puzzle_x_pos = 11, puzzle_y_pos = 12, puzzle_z_pos = 13;
             int cursor_x_pos = 11, cursor_y_pos = 12, cursor_z_pos = 13;
+            bool cursorxpos = false, cursorypos = false, cursorzpos = false;
             int[,,] board = new int[,,]
             {
                 { { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 } }, // Ön Yüz
@@ -725,6 +726,27 @@ namespace Proje_2_Deneme
                                 for (int k = 0; k < cursor.GetLength(2); k++)
                                 {
                                     cursor[2 - j, i, k] = cursor_rotate[i, j, k];
+                                    if (cursor_x_pos % 10 == 1)
+                                        cursorxpos = true;
+                                    else if (cursor_y_pos % 10 == 1)
+                                        cursorypos = true;
+                                    else if (cursor_z_pos % 10 == 1)
+                                        cursorzpos = true;
+                                    if (cursorxpos == cursorypos)
+                                    {
+                                        cursormove(cursor_x_pos, cursor_y_pos);
+                                        cursorzpos = false;
+                                    }
+                                    else if (cursorxpos == cursorzpos)
+                                    {
+                                        cursormove(cursor_x_pos, cursor_z_pos);
+                                        cursorypos = false;
+                                    }
+                                    else
+                                    {
+                                        cursormove(cursor_y_pos, cursor_z_pos);
+                                        cursorxpos = false;
+                                    }
                                 }
                             }
                         }
@@ -958,6 +980,10 @@ namespace Proje_2_Deneme
                 Console.Clear();
             }
             Console.ReadLine();
+        }
+        static void cursormove(int a, int b)
+        {
+
         }
     }
 } 
