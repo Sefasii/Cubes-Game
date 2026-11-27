@@ -20,7 +20,6 @@ namespace Proje_2_Deneme
             int board_x_pos = 11, board_y_pos = 12, board_z_pos = 13;
             int puzzle_x_pos = 11, puzzle_y_pos = 12, puzzle_z_pos = 13;
             int cursor_x_pos = 11, cursor_y_pos = 12, cursor_z_pos = 13;
-            bool cursorxpos = false, cursorypos = false, cursorzpos = false;
             int[,,] board = new int[,,]
             {
                 { { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 }, { 0, 0, 0, 0, 0 } }, // Ön Yüz
@@ -705,6 +704,12 @@ namespace Proje_2_Deneme
                                 }
                             }
                         }
+                        if (cursor_x_pos % 10 == 2)
+                            cursorleftmove(ref cursor_y_pos, ref cursor_z_pos);
+                        else if (cursor_y_pos % 10 == 2)
+                            cursorleftmove(ref cursor_x_pos, ref cursor_z_pos);
+                        else
+                            cursorleftmove(ref cursor_x_pos, ref cursor_y_pos);
                         break;
                     case ConsoleKey.Z: // Cursor'ın ön yüzünü sağa döndürme
                         for (int i = 0; i < cursor.GetLength(0); i++)
@@ -717,6 +722,12 @@ namespace Proje_2_Deneme
                                 }
                             }
                         }
+                        if (cursor_x_pos % 10 == 2)
+                            cursorrightmove(ref cursor_y_pos, ref cursor_z_pos);
+                        else if (cursor_y_pos % 10 == 2)
+                            cursorrightmove(ref cursor_x_pos, ref cursor_z_pos);
+                        else
+                            cursorrightmove(ref cursor_x_pos, ref cursor_y_pos);
                         break;
                     case ConsoleKey.X: // Cursor'ın ön yüzünü yukarıya döndürme
                         for (int i = 0; i < cursor.GetLength(0); i++)
@@ -726,30 +737,15 @@ namespace Proje_2_Deneme
                                 for (int k = 0; k < cursor.GetLength(2); k++)
                                 {
                                     cursor[2 - j, i, k] = cursor_rotate[i, j, k];
-                                    if (cursor_x_pos % 10 == 1)
-                                        cursorxpos = true;
-                                    else if (cursor_y_pos % 10 == 1)
-                                        cursorypos = true;
-                                    else if (cursor_z_pos % 10 == 1)
-                                        cursorzpos = true;
-                                    if (cursorxpos == cursorypos)
-                                    {
-                                        cursormove(cursor_x_pos, cursor_y_pos);
-                                        cursorzpos = false;
-                                    }
-                                    else if (cursorxpos == cursorzpos)
-                                    {
-                                        cursormove(cursor_x_pos, cursor_z_pos);
-                                        cursorypos = false;
-                                    }
-                                    else
-                                    {
-                                        cursormove(cursor_y_pos, cursor_z_pos);
-                                        cursorxpos = false;
-                                    }
                                 }
                             }
                         }
+                        if (cursor_x_pos % 10 == 1)
+                            cursorupmove(ref cursor_y_pos, ref cursor_z_pos);
+                        else if (cursor_y_pos % 10 == 1)
+                            cursorupmove(ref cursor_x_pos, ref cursor_z_pos);
+                        else
+                            cursorupmove(ref cursor_x_pos, ref cursor_y_pos);
                         break;
                     case ConsoleKey.B: // Cursor'ın ön yüzünü aşağıya döndürme
                         for (int i = 0; i < cursor.GetLength(0); i++)
@@ -762,6 +758,12 @@ namespace Proje_2_Deneme
                                 }
                             }
                         }
+                        if (cursor_x_pos % 10 == 1)
+                            cursordownmove(ref cursor_y_pos, ref cursor_z_pos);
+                        else if (cursor_y_pos % 10 == 1)
+                            cursordownmove(ref cursor_x_pos, ref cursor_z_pos);
+                        else
+                            cursordownmove(ref cursor_x_pos, ref cursor_y_pos);
                         break;
                     case ConsoleKey.V: // Cursor'ın ön yüzünü saat yönünün tersine döndürme
                         for (int i = 0; i < cursor.GetLength(0); i++)
@@ -774,6 +776,12 @@ namespace Proje_2_Deneme
                                 }
                             }
                         }
+                        if (cursor_x_pos % 10 == 3)
+                            cursorcountermove(ref cursor_y_pos, ref cursor_z_pos);
+                        else if (cursor_y_pos % 10 == 3)
+                            cursorcountermove(ref cursor_x_pos, ref cursor_z_pos);
+                        else
+                            cursorcountermove(ref cursor_x_pos, ref cursor_y_pos);
                         break;
                     case ConsoleKey.N: // Cursor'ın ön yüzünü saat yönünde döndürme
                         for (int i = 0; i < cursor.GetLength(0); i++)
@@ -786,6 +794,12 @@ namespace Proje_2_Deneme
                                 }
                             }
                         }
+                        if (cursor_x_pos % 10 == 3)
+                            cursorclockmove(ref cursor_y_pos, ref cursor_z_pos);
+                        else if (cursor_y_pos % 10 == 3)
+                            cursorclockmove(ref cursor_x_pos, ref cursor_z_pos);
+                        else
+                            cursorclockmove(ref cursor_x_pos, ref cursor_y_pos);
                         break;
 
                     //-------------------------------------------------
@@ -981,9 +995,131 @@ namespace Proje_2_Deneme
             }
             Console.ReadLine();
         }
-        static void cursormove(int a, int b)
+        static void cursorupmove(ref int a, ref int b)
         {
-
+            if (a % 10 == 2)
+            {
+                a++;
+                b--;
+                if (b > 10)
+                    b = b - 10;
+                else
+                    b = b + 10;
+            }
+            else
+            {
+                a--;
+                b++;
+                if (a > 10)
+                    a = a - 10;
+                else
+                    a = a + 10;
+            }
+        }
+        static void cursordownmove(ref int a, ref int b)
+        {
+            if (a % 10 == 2)
+            {
+                a++;
+                b--;
+                if (a > 10)
+                    a = a - 10;
+                else
+                    a = a + 10;
+            }
+            else
+            {
+                a--;
+                b++;
+                if (b > 10)
+                    b = b - 10;
+                else
+                    b = b + 10;
+            }
+        }
+        static void cursorleftmove(ref int a, ref int b)
+        {
+            if (a % 10 == 1)
+            {
+                a = a + 2;
+                b = b - 2;
+                if (a > 10)
+                    a = a - 10;
+                else
+                    a = a + 10;
+            }
+            else
+            {
+                a = a - 2;
+                b = b + 2;
+                if (b > 10)
+                    b = b - 10;
+                else
+                    b = b + 10;
+            }
+        }
+        static void cursorrightmove(ref int a, ref int b)
+        {
+            if (a % 10 == 1)
+            {
+                a = a + 2;
+                b = b - 2;
+                if (b > 10)
+                    b = b - 10;
+                else
+                    b = b + 10;
+            }
+            else
+            {
+                a = a - 2;
+                b = b + 2;
+                if (a > 10)
+                    a = a - 10;
+                else
+                    a = a + 10;
+            }
+        }
+        static void cursorclockmove(ref int a, ref int b)
+        {
+            if (a % 10 == 1)
+            {
+                a++;
+                b--;
+                if (a > 10)
+                    a = a - 10;
+                else
+                    a = a + 10;
+            }
+            else
+            {
+                a--;
+                b++;
+                if (b > 10)
+                    b = b - 10;
+                else
+                    b = b + 10;
+            }
+        }
+        static void cursorcountermove(ref int a, ref int b)
+        {
+            if (a % 10 == 1)
+            {
+                a++;
+                b--;
+                if (b > 10)
+                    b = b - 10;
+                else
+                    b = b + 10;
+            }
+            else
+            {
+                a--;
+                b++;
+                if (a > 10)
+                    a = a - 10;
+                else
+                    a = a + 10;
+            }
         }
     }
-} 
+}
